@@ -1,23 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Upload from './components/Upload';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <img src={'https://firebasestorage.googleapis.com/v0/b/upload-storage-at.appspot.com/o/photos%2F80fa6a603bf1435d9a19cabf0ff958ad.webp?alt=media'}
+        className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Upload/>
       </header>
     </div>
   );
