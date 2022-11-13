@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { initializeApp } from "firebase/app";
-import { getStorage, ref, StorageReference, uploadBytes } from "firebase/storage";
+import React, {useState} from "react";
+import {initializeApp} from "firebase/app";
+import {getStorage, ref, StorageReference, uploadBytes} from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAa3P8rquH_tuAi08XZPXrZgiHJgMyjycA",
@@ -13,6 +13,7 @@ const firebaseConfig = {
 
 export default function Upload() {
   const [selectedFile , setSelectedFile] = useState<File | undefined>();
+  const [user, setUser] = useState <string | undefined>()
   const handleUpload = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
     if(!selectedFile) {
@@ -30,6 +31,14 @@ export default function Upload() {
     const url = `https://firebasestorage.googleapis.com/v0/b/upload-storage-at.appspot.com/o/photos%2F${filename}80fa6a603bf1435d9a19cabf0ff958ad.webp?alt=media`
     // upload file to bucket
     uploadBytes(imageRef, selectedFile)
+    // add an await or .then and then update our database with url
+    .then(fileinfo => {
+      console.log(fileinfo)
+      // todo send this forms information to the backend api
+      fetch(process.env.REACT_APP_ENDPOINT+'/posts')
+      .then(res => res.json())
+      .then(data => {})
+    })
 
   }
   return (
@@ -38,6 +47,10 @@ export default function Upload() {
       onChange={(e: React.FormEvent<HTMLInputElement | any >) => setSelectedFile(e.currentTarget.files[0])}
       // value={selectedFile?.name}
       />
+      <br/>
+      <input  placeholder="User" type="text" name="user" id="user" 
+      onChange={(e: React.FormEvent<HTMLInputElement> | any ) => setUser(e.value)} />
+      <br/>
       <button type="submit">Upload</button>
     </form>
   )
